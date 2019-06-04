@@ -61,63 +61,6 @@ class FollowerController extends BaseController
     }
 
     /**
-     * Creates a follower.
-     *
-     * @Rest\Post("/follower")
-     *
-     * @param  Request $request
-     *
-     * @return Response
-     */
-    public function create(Request $request): Response
-    {
-        $follower = new Follower();
-        $form = $this->createForm(FollowerType::class, $follower);
-
-        $form->submit($request->request->all());
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $follower = $this->followerService->save($follower);
-
-            return $this->handleView($this->view($follower, Response::HTTP_CREATED));
-        }
-
-        return $this->handleView($this->view($this->getErrorsMessages($form), Response::HTTP_UNPROCESSABLE_ENTITY));
-    }
-
-    /**
-     * Updates a follower
-     *
-     * @Rest\Patch("/follower/{id}")
-     *
-     * @param int $id
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function update(int $id, Request $request): Response
-    {
-        $follower = $this->followerService->get($id);
-
-        if(is_null($follower)){
-
-            return $this->handleView($this->view([], Response::HTTP_NOT_FOUND));
-        }
-
-        $form = $this->createForm(FollowerType::class, $follower);
-        $form->submit($request->request->all());
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $follower = $this->followerService->save($follower);
-
-            return $this->handleView($this->view($follower, Response::HTTP_CREATED));
-        }
-
-        return $this->handleView($this->view($this->getErrorsMessages($form), Response::HTTP_UNPROCESSABLE_ENTITY));
-    }
-
-    /**
      * Follows a user
      *
      * @Rest\Post("/follower/follow")
