@@ -32,15 +32,13 @@ class UserController extends BaseController
     /**
      * Lists all users.
      *
-     * @Rest\Get("/user/{id}")
-     *
-     * @param int id
+     * @Rest\Get("/user")
      *
      * @return Response
      */
-    public function show(int $id)
+    public function show()
     {
-        $user = $this->userService->get($id);
+        $user = $this->userService->getCurrent();
 
         if(is_null($user)){
 
@@ -48,39 +46,5 @@ class UserController extends BaseController
         }
 
         return $this->handleView($this->view($user, Response::HTTP_OK));
-    }
-
-    /**
-     * Updates a user
-     *
-     * @Rest\Put("/user/{id}")
-     *
-     * @param int $id
-     * @param Request $request
-     *
-     * @return mixed
-    */
-    public function update(int $id, Request $request)
-    {
-        $user = $this->userService->get($id);
-
-        if(is_null($user)){
-
-            return $this->handleView($this->view([], Response::HTTP_NOT_FOUND));
-        }
-
-        $form = $this->createForm(UserType::class, $user);
-
-        $data = $this->userService->update($user, $request->request->all());
-
-        $form->submit($data);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->userService->save($user);
-
-            return $this->handleView($this->view($user, Response::HTTP_CREATED));
-        }
-
-        return $this->handleView($this->view($this->getErrorsMessages($form), Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

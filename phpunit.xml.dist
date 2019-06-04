@@ -12,7 +12,7 @@
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
-        <env name="DATABASE_URL" value="mysql://root:pass@127.0.0.1:3306/wab_social_test"/>
+        <env name="DATABASE_URL" value="mysql://user:password@127.0.0.1:3306/db"/>
         <env name="APP_DEBUG" value="1" />
     </php>
 

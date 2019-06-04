@@ -6,26 +6,30 @@ namespace App\Service\User;
 
 use App\Entity\User\User;
 use App\Repository\User\UserRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserService
 {
 
     private $userRepo;
 
-    public function __construct(UserRepository $userRepo)
+    private $tokenStorage;
+
+    public function __construct(UserRepository $userRepo, TokenStorageInterface $tokenStorage)
     {
         $this->userRepo = $userRepo;
+
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
-     * @param int $id
      *
      * @return User|null
     */
-    public function get(int $id): ?User
+    public function getCurrent(): ?User
     {
 
-        return $this->userRepo->find($id);
+        return $this->tokenStorage->getToken()->getUser()->getId();
 
     }
 
@@ -38,27 +42,5 @@ class UserService
     {
 
         return $this->userRepo->save($user);
-    }
-
-    /**
-     * @param User $user
-     * @param array $data
-     *
-     * @return array
-    */
-    public function update(User $user, array $data): array
-    {
-        $oldData = [
-            "name" => $user->getName(),
-            "last_name" => $user->getLastName(),
-            "biography" => $user->getBiography(),
-            "birthday" => $user->getBirthday()->format('Y-m-d'),
-            "email" => $user->getEmail()
-        ];
-
-        unset($data["email"]);
-        unset($data["birthday"]);
-
-        return array_merge($oldData, $data);
     }
 }

@@ -33,34 +33,6 @@ class FollowerController extends BaseController
     }
 
     /**
-     * Lists all followers.
-     *
-     * @Rest\Get("/followers")
-     *
-     * @return Response
-     */
-    public function followers(): Response
-    {
-        $followers = $this->followerService->followers();
-
-        return $this->handleView($this->view($followers, Response::HTTP_OK));
-    }
-
-    /**
-     * Lists all users following authenticated user.
-     *
-     * @Rest\Get("/following")
-     *
-     * @return Response
-     */
-    public function following(): Response
-    {
-        $following = $this->followerService->following();
-
-        return $this->handleView($this->view($following, Response::HTTP_OK));
-    }
-
-    /**
      * Follows a user
      *
      * @Rest\Post("/follower/follow")
