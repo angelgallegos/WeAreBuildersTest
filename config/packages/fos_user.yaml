@@ -1,0 +1,11 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: App\Entity\User\User
+    from_email:
+        address: "no-reply@wabsocial.com"
+        sender_name: "Wab Social"
+
+    registration:
+        form:
+            type: App\Form\User\RegistrationFormType
